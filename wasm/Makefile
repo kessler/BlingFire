@@ -18,7 +18,13 @@
 all: blingfire.js
 
 blingfire.js:
-	em++ ../blingfiretools/blingfiretokdll/blingfiretokdll.cpp ../blingfiretools/blingfiretokdll/*.cxx  ../blingfireclient.library/src/*.cpp  -s WASM=1 -s EXPORTED_FUNCTIONS="[_GetBlingFireTokVersion, _TextToSentences, _TextToWords, _TextToIds, _SetModel, _FreeModel, _WordHyphenationWithModel]" -s "EXTRA_EXPORTED_RUNTIME_METHODS=['lengthBytesUTF8', 'stackAlloc', 'stringToUTF8', 'UTF8ToString']" -s ALLOW_MEMORY_GROWTH=1 -s DISABLE_EXCEPTION_CATCHING=0 -I ../blingfireclient.library/inc/ -I ../blingfirecompile.library/inc/ -DHAVE_ICONV_LIB -DHAVE_NO_SPECSTRINGS -D_VERBOSE -DBLING_FIRE_NOAP -DBLING_FIRE_NOWINDOWS -DNDEBUG -O3 --std=c++11 -o blingfire.js
+	em++ ../blingfiretools/blingfiretokdll/blingfiretokdll.cpp ../blingfiretools/blingfiretokdll/*.cxx  ../blingfireclient.library/src/*.cpp  \
+	-sWASM=1 \
+	-sEXPORTED_FUNCTIONS=_GetBlingFireTokVersion,_TextToSentences,_TextToWords,_TextToIds,_SetModel,_FreeModel,_WordHyphenationWithModel,_malloc,_free \
+	-sEXPORTED_RUNTIME_METHODS=lengthBytesUTF8,stackAlloc,stringToUTF8,UTF8ToString \
+	-sALLOW_MEMORY_GROWTH=1 -sDISABLE_EXCEPTION_CATCHING=0 -I ../blingfireclient.library/inc/ -I ../blingfirecompile.library/inc/ \
+	-sMODULARIZE \
+	-DHAVE_ICONV_LIB -DHAVE_NO_SPECSTRINGS -D_VERBOSE -DBLING_FIRE_NOAP -DBLING_FIRE_NOWINDOWS -DNDEBUG -O1 --std=c++11 -o blingfire.js
 
 clean:
 	rm blingfire.js blingfire.wasm *.bin
